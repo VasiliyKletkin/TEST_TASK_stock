@@ -15,4 +15,4 @@ class Order(models.Model):
         verbose_name_plural = 'Заказы'
 
     def __str__(self):
-        return f' Order number {self.order_number} have status {self.status}'
+        return f' Order number {self.number} have status {self.status}'
