@@ -39,9 +39,9 @@ class OrderAdmin(admin.ModelAdmin):
                         elif '/change/' in path:
                             response = requests.put(
                                 "http://" + host + api_model[obj.__class__] + str(obj.id) + '/', serializer.data)
-                    except:
+                    except requests.exceptions.HTTPError as e:
                          raise HTTPError("Ошибка синхронизации",
-                                        response=response)
+                                        response=e.response.text)
 
                     if not response:
                         print("Ошибка синхронизации" +
