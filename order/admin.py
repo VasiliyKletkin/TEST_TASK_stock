@@ -30,14 +30,18 @@ class OrderAdmin(admin.ModelAdmin):
 
                     serializer = OrderSerializer(obj)
                     response = None
+                    try:
+                            
+                        if '/add/' in path:
+                            response = requests.post(
+                                "http://" + host + api_model[obj.__class__], serializer.data)
 
-                    if '/add/' in path:
-                        response = requests.post(
-                            "http://" + host + api_model[obj.__class__], serializer.data)
-
-                    elif '/change/' in path:
-                        response = requests.put(
-                            "http://" + host + api_model[obj.__class__] + str(obj.id) + '/', serializer.data)
+                        elif '/change/' in path:
+                            response = requests.put(
+                                "http://" + host + api_model[obj.__class__] + str(obj.id) + '/', serializer.data)
+                    except:
+                         raise HTTPError("Ошибка синхронизации",
+                                        response=response)
 
                     if not response:
                         print("Ошибка синхронизации" +
